@@ -3,34 +3,83 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ES-Jam 〜Webプログラミング道場〜</title>
+    <title>ES-Jam 〜サイバーパンク道場〜</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- サイバーパンク風フォント（外部） -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg1: #04040a;
+            --bg2: #060026;
+            --neon-cyan: #00ffe1;
+            --neon-mag: #ff2dff;
+            --neon-yellow: #ffd400;
+            --glass: rgba(255,255,255,0.03);
+        }
+        html,body{height:100%;margin:0;font-family: "Orbitron",monospace, monospace;background: radial-gradient(1200px 600px at 10% 10%, rgba(0,255,225,0.03), transparent), linear-gradient(120deg, var(--bg2) 0%, #000 60%); color:#e6f7ff;}
+        /* Header */
+        header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:16px;
+            gap:12px;
+            backdrop-filter: blur(6px);
+            background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        header h1{margin:0;font-size:1.4rem; letter-spacing:1px; color:var(--neon-cyan); text-shadow:0 0 16px rgba(0,255,225,0.12);}
+        header h1 span{font-size:0.6rem;color:var(--neon-mag);display:inline-block;margin-left:10px}
+        .controls{display:flex;gap:8px;align-items:center;}
+        button{
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border:1px solid rgba(255,255,255,0.06);
+            color:var(--neon-cyan);
+            padding:8px 12px;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:1rem;
+            box-shadow:0 6px 18px rgba(0,0,0,0.6), 0 0 12px rgba(0,255,225,0.04);
+        }
+        button .minor{display:block;font-size:0.6rem;color:#8ff;}
+        /* Layout */
+        .main{height:calc(100vh - 130px); display:flex; gap:8px; padding:12px;}
+        #elmEditor{width:50%; height:100%; border-radius:8px; overflow:hidden; box-shadow: inset 0 0 60px rgba(0,0,0,0.8); border:1px solid rgba(255,255,255,0.03);}
+        #elmPreview{width:50%; height:100%; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: #020014; box-shadow:0 8px 40px rgba(0,0,0,0.7);}
+        /* footer */
+        footer{padding:12px 20px; text-align:right; color:rgba(200,255,255,0.6); font-size:0.9rem;}
+        footer a{color:var(--neon-mag); text-decoration:none;}
+        /* Neon labels */
+        .label-neon{font-weight:700; color:var(--neon-cyan); text-shadow:0 0 8px rgba(0,255,225,0.12);}
+        /* responsive */
+        @media (max-width:900px){
+            .main{flex-direction:column;}
+            #elmEditor,#elmPreview{width:100%; height:50%;}
+        }
+    </style>
 </head>
 
-<body style="height:100vh;">
-    <div style="height:3em;">
-        <div style="float:right; ">
-            <button id=btnrun style="font-size:1.2em;">見てみる (^S)</button>
-            <button id=btnsave style="font-size:1.2em;">SAVEする<a id="elmSave"></a></button>
-            <button id=btnload style="font-size:1.2em;">LOADする<input id="elmLoad" type="file" hidden></button>
-            
-                <button id=btnshare title="シェアする" style="font-size:1.2em;">📤</button>
-            
+<body>
+    <header>
+        <h1>ES-Jam <span>〜Cyber Dojo〜</span></h1>
+        <div class="controls">
+            <button id="btnrun"><span class="label-neon">起動</span><span class="minor">NEO-RUN (Ctrl+S)</span></button>
+            <button id="btnsave"><span class="label-neon">ログを保存</span><span class="minor">EXPORT CORE</span><a id="elmSave"></a></button>
+            <button id="btnload"><span class="label-neon">ログ読込</span><span class="minor">IMPORT</span><input id="elmLoad" type="file" hidden></button>
+            <button id="btnshare" title="シェア" style="font-size:1.05em;">🔗 シェア</button>
         </div>
-        <h1 style="font-size:1.5em;">
-            ES-Jam <span style="font-size:66%;">〜Webプログラミング道場〜</span>
-        </h1>
-    </div>
-    <div style="height:calc(100vh - 7em);">
-        <div style="float:left; width:50%; height:100%;" id="elmEditor"></div>
-        <div style="float:right; width:50%; height:100%;">
-            <iframe id="elmPreview" style="width:100%; height:100%;" src="data:text/html;charset=utf-8;base64,5bem5YG0KOOCqOODh+OCo+OCvynjgatIVE1M44KS5pu444GE44Gm44CM6KaL44Gm44G/44KL44CN44Oc44K/44Oz44KS44CC"></iframe>
+    </header>
+
+    <div class="main">
+        <div id="elmEditor"></div>
+        <div>
+            <iframe id="elmPreview" src="data:text/html;charset=utf-8;base64,PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0idXRmLTgiPjx0aXRsZT5FUy1KQU08L3RpdGxlPjxzdHlsZT5ib2R5e21hcmdpbjowO2JhY2tncm91bmQ6IzAwMTtkbGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2hlaWdodDowMTAwaHg7Y29sb3I6I2BmZmY7Zm9udC1mYW1pbHk6bW9ub3NwYWNlfWh9IGgxeyBmb250LXNpemU6Mi4wZW07dGV4dC1zaGFkb3c6MCAwIDggI2BmZmYsMCAwIDI0cHggI2YwZjtjb2xvcjojMGZmZjt9IHAgeyBvcGFjaXR5OjAuO30gc3R5bGU9IiI+PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdj48aDE+RVMtSkFNIC0gQ3liZXIgRG9qbyA8L2gxPjxwPuOBmuOBq-OBmeOBq-OBvOOBk-OBj+OBruOBq-OBueOBj-OCk-OBq-OBq-OBvOOBj+ODvOOCi+OCi-OCk+ODvOOCk-ODvA=="></iframe>
         </div>
     </div>
-    <div style="padding-top:15px; ">
-        <div style="float:right; ">
-            v20220821 by <a href="https://github.com/code4fukui/htmlprac" target="_blank">Code for FUKUI</a>
-        </div>
-    </div>
+
+    <footer>
+        <div>v20220821 — Neon build by <a href="https://github.com/code4fukui/htmlprac" target="_blank">Code for FUKUI</a></div>
+    </footer>
 
     <script type="module">
         import { monaco } from "https://code4fukui.github.io/monaco-editor/monaco.js";
@@ -41,13 +90,9 @@
         async function エディタを作る() {
             g_editor = monaco.editor.create(elmEditor, {
                 language: "html",
-                //autoIndent: true,
                 autoIndent: "none",
-                //formatOnPaste: true,
-                //formatOnType: true,
                 tabSize: 2,
                 minimap: { enabled: false },
-                //overflow: "auto",
                 automaticLayout: true,
                 theme: "vs-dark",
             });
@@ -64,7 +109,6 @@
             elmEditor.addEventListener("keyup", (e) => {
                 if (e.ctrlKey && e.key == "s") {
                     見てみる();
-                    // elmPreview.focus();
                 }
             });
         }
@@ -74,14 +118,14 @@
             const p2 = fixMyHTML(p1);
             if (p1 != p2) {
                 g_editor.setValue(p2);
-                //alert("全角文字を半角文字に置き換えました");
             }
-            //g_editor.getAction("editor.action.formatDocument").run();
+            // プレビューは blob に流し込んで即座に表示（現実は壊れやすい）
             elmPreview.src = URL.createObjectURL(new Blob([g_editor.getValue()], { type: "text/html" }));
         }
 
         function SAVEする() {
-            elmSave.download = `WebDOJO.${Date.now()}.html`;
+            // サイバーパンク風のファイル名
+            elmSave.download = `core_dump.${Date.now()}.html`;
             elmSave.href = URL.createObjectURL(new Blob([g_editor.getValue()], { type: "application/octet-stream" }));
             elmSave.click();
         }
@@ -97,14 +141,15 @@
         function シェアする() {
             const code = encodeURIComponent(g_editor.getValue().replaceAll('script','scr.ES-Jam.ipt')).replaceAll('(','%28').replaceAll(')','%29').replaceAll("'",'%27');
             navigator.clipboard.writeText(`${location.origin}${location.pathname}#${code}`);
-            alert('シェア用URLをクリップボードにコピーしました');
+            alert('シェアリンクをクローニングしました — クリップボードに転写済み');
         }
+
         // init
         btnrun.onclick = () => 見てみる();
         elmLoad.onchange = () => LOADする();
         btnload.onclick = () => elmLoad.click();
         btnsave.onclick = () => SAVEする();
-       btnshare.onclick = () => シェアする();
+        btnshare.onclick = () => シェアする();
         エディタを作る();
     </script>
 </body>
