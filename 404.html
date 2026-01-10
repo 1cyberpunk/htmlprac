@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>404 — ネットワークの幽霊</title>
+<style>
+  :root{
+    --bg1: #050014;
+    --bg2: #001428;
+    --neon-pink: #ff2d95;
+    --neon-cyan: #00f0ff;
+    --neon-yellow: #ffd400;
+    --glass: rgba(255,255,255,0.04);
+    --mono: "SFMono-Regular", "Menlo", "Monaco", monospace;
+  }
+
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{
+    background:
+      radial-gradient(ellipse at 10% 10%, rgba(0,240,255,0.03), transparent 5%),
+      radial-gradient(ellipse at 90% 90%, rgba(255,45,149,0.03), transparent 5%),
+      linear-gradient(110deg, var(--bg1), var(--bg2) 60%);
+    color:#d6f7ff;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* moving grid */
+  .grid {
+    position:fixed; inset:0; z-index:0;
+    background-image:
+      linear-gradient(transparent 92%, rgba(255,255,255,0.02) 92%),
+      linear-gradient(90deg, transparent 92%, rgba(255,255,255,0.02) 92%);
+    background-size: 100% 40px, 40px 100%;
+    animation: scrollGrid 10s linear infinite;
+    pointer-events:none;
+    mix-blend-mode: overlay;
+  }
+  @keyframes scrollGrid { from {background-position:0 0, 0 0} to {background-position:0 -40px, -40px 0} }
+
+  /* scanlines */
+  .scanline {
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.03) 3px
+    );
+    mix-blend-mode: multiply;
+    opacity:0.6;
+  }
+
+  .container{
+    position:relative;
+    z-index:2;
+    width:min(920px, 92%);
+    padding:40px;
+    box-sizing:border-box;
+    display:grid;
+    gap:18px;
+    align-items:center;
+    justify-items:center;
+    text-align:center;
+  }
+
+  .card{
+    width:100%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);
+    padding:34px;
+    border-radius:12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px rgba(0,240,255,0.04) inset;
+    backdrop-filter: blur(6px) saturate(120%);
+  }
+
+  /* Big glitchy 404 */
+  .glitch-wrap{
+    font-family: var(--mono);
+    margin-bottom:6px;
+  }
+  .glitch{
+    font-size: clamp(48px, 12vw, 128px);
+    line-height:0.85;
+    font-weight:900;
+    letter-spacing: -4px;
+    position: relative;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow:
+      0 0 24px rgba(0,240,255,0.08),
+      0 0 40px rgba(255,45,149,0.06);
+    display:inline-block;
+    padding: 6px 12px;
+  }
+  .glitch::before,
+  .glitch::after{
+    content: attr(data-text);
+    position:absolute;
+    left:0; top:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+    pointer-events:none;
+  }
+  .glitch::before{
+    color: var(--neon-cyan);
+    z-index:-2;
+    transform: translate(6px, -4px);
+    filter: blur(2px);
+    mix-blend-mode: screen;
+    animation: glitchTop 2.2s infinite linear alternate-reverse;
+    opacity:0.85;
+  }
+  .glitch::after{
+    color: var(--neon-pink);
+    z-index:-3;
+    transform: translate(-6px, 4px);
+    filter: blur(1px);
+    mix-blend-mode: screen;
+    animation: glitchBot 1.8s infinite linear alternate-reverse;
+    opacity:0.9;
+  }
+  @keyframes glitchTop{
+    0% { clip-path: inset(0 0 0 0); transform:translate(6px,-4px) skewX(-1deg); }
+    10% { clip-path: inset(10% 0 70% 0); transform:translate(18px,-8px) skewX(6deg); }
+    20% { clip-path: inset(60% 0 10% 0); transform:translate(-8px,-6px) skewX(-3deg); }
+    30% { clip-path: inset(20% 0 60% 0); transform:translate(6px,-2px) skewX(2deg); }
+    100% { clip-path: inset(0 0 0 0); transform:translate(6px,-4px) skewX(-1deg); }
+  }
+  @keyframes glitchBot{
+    0% { clip-path: inset(0 0 0 0); transform:translate(-6px,4px) skewX(1deg); }
+    10% { clip-path: inset(30% 0 40% 0); transform:translate(-18px,8px) skewX(-5deg); }
+    40% { clip-path: inset(60% 0 10% 0); transform:translate(8px,4px) skewX(3deg); }
+    100% { clip-path: inset(0 0 0 0); transform:translate(-6px,4px) skewX(1deg); }
+  }
+
+  /* subtitle / lines */
+  .sub{
+    font-family: var(--mono);
+    font-size: 15px;
+    color: rgba(214,247,255,0.9);
+    text-shadow: 0 0 8px rgba(0,0,0,0.6);
+  }
+
+  .neon-line{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+  }
+  .chip{
+    padding:6px 12px;
+    border-radius:8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    font-family: var(--mono);
+    font-size:13px;
+    color:#bfefff;
+    box-shadow: 0 0 12px rgba(0,240,255,0.03) inset;
+  }
+
+  p.desc{
+    margin:18px 0 0 0;
+    font-size:16px;
+    color:rgba(214,247,255,0.85);
+    line-height:1.5;
+    max-width:780px;
+  }
+
+  .actions{
+    margin-top:20px;
+    display:flex;
+    gap:12px;
+    justify-content:center;
+  }
+  .btn{
+    font-family: var(--mono);
+    padding:10px 16px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    cursor:pointer;
+    color:#e8ffff;
+    text-decoration:none;
+    font-size:14px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,240,255,0.04); }
+  .btn.primary{
+    border: 1px solid rgba(0,240,255,0.18);
+    box-shadow: 0 0 40px rgba(0,240,255,0.06);
+  }
+  .btn.ghost{
+    border:1px dashed rgba(255,255,255,0.06);
+    background:transparent;
+  }
+
+  /* footer console */
+  .console{
+    margin-top:18px;
+    width:100%;
+    text-align:left;
+    background: rgba(0,0,0,0.45);
+    padding:12px;
+    border-radius:8px;
+    color:#9ff7ff;
+    font-family: var(--mono);
+    font-size:13px;
+    border:1px solid rgba(0,240,255,0.03);
+    letter-spacing:0.6px;
+  }
+  .console b{ color: var(--neon-yellow); }
+  .muted{ color: rgba(214,247,255,0.5); font-family: Inter, sans-serif; }
+
+  /* small responsive tweaks */
+  @media (max-width:520px){
+    .glitch{ font-size: 56px; letter-spacing:-2px; }
+    .card{ padding:22px; border-radius:10px; }
+  }
+
+  /* background pulse */
+  @keyframes bgPulse {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(8deg) brightness(1.03); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
+  }
+  body{ animation: bgPulse 18s ease-in-out infinite; }
+
+  /* flicker on title occasionally */
+  @keyframes flicker {
+    0% { opacity:1; }
+    5% { opacity:0.4; transform: translateY(-1px) scale(1.01); }
+    7% { opacity:1; transform: none; }
+    12% { opacity:0.6; }
+    100% { opacity:1; }
+  }
+  .glitch { animation: flicker 4s infinite; }
+</style>
+</head>
+<body>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <div class="container" role="main" aria-labelledby="title">
+    <div class="card" role="region" aria-label="404 エラー">
+      <div class="glitch-wrap">
+        <div id="title" class="glitch" data-text="404">404</div>
+      </div>
+
+      <div class="sub">
+        <div class="neon-line">
+          <div class="chip">端末: <strong>シティ・ノード</strong></div>
+          <div class="chip">ステータス: <strong>データ欠落</strong></div>
+          <div class="chip">コード: <strong>0xDEAD404</strong></div>
+        </div>
+      </div>
+
+      <p class="desc">
+        あなたのリクエストは都市の迷宮で迷子になった――<br>
+        このサブネットのそのページはもはや存在しないか、消去されたか、あるいは別の現実に移動した。<br>
+        ネオンの下で再接続するか、別の経路を選んでください。
+      </p>
+
+      <div class="actions" role="navigation" aria-label="操作">
+        <a class="btn primary" href="/" title="トップページへ戻る">トップへ戻る</a>
+        <button class="btn ghost" onclick="retry()" title="ページを再読み込み">再試行</button>
+        <button class="btn" onclick="openMatrix()" title="ログを表示">ログを開く</button>
+      </div>
+
+      <div class="console" id="console" aria-live="polite">
+        <div><b>[NODE]</b> 接続待ち... <span class="muted">eth0 · 0.0.0.0</span></div>
+        <div><b>[TRACE]</b> last hops: <span class="muted">/gateway/sector-7 /neon/arc /404</span></div>
+        <div><b>[ACTION]</b> 推奨: <span class="muted">トップへ戻る / 再試行 / 管理者に連絡</span></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function retry(){
+    // create a fake connection flicker then reload
+    const c = document.getElementById('console');
+    c.innerHTML += '<div><b>[SYSTEM]</b> 再接続を試みています...</div>';
+    setTimeout(()=> location.reload(), 900);
+  }
+
+  function openMatrix(){
+    const c = document.getElementById('console');
+    c.innerHTML += '<div><b>[MATRIX]</b> 古いログを復元中…</div>';
+    // append a few lines
+    const lines = [
+      '[MATRIX] fragment: "ghost_packet_07" recovered',
+      '[MATRIX] note: "都市の右下、下水トンネルに似たルート"',
+      '[MATRIX] hint: "時々、/archives/neo-alleys を試せ"'
+    ];
+    let i=0;
+    const t = setInterval(()=>{
+      if(i>=lines.length){ clearInterval(t); return; }
+      c.innerHTML += '<div>' + lines[i] + '</div>';
+      i++;
+    }, 600);
+    window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' });
+  }
+
+  // small keyboard easter egg — press G to toggle extra glitch
+  document.addEventListener('keydown', (e)=>{
+    if(e.key.toLowerCase() === 'g'){
+      const g = document.querySelector('.glitch');
+      g.style.textShadow = g.style.textShadow ? '' : '0 0 30px rgba(0,240,255,0.2), 0 0 50px rgba(255,45,149,0.08)';
+    }
+  });
+</script>
+</body>
+</html>
