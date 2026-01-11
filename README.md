@@ -1,39 +1,21 @@
-Nice. I rewired your README into full neon-noir mode — compact, readable, and dripping with chrome. Use this to replace the original README; it keeps the same link and license info but sounds like a hacker’s travel brochure. ⚡️🖤
+# Qianyu Yang (v1.0.0)
 
-# ⚡ ES-Jam — Cyber Dojo (ネオン版)
+[![Life Status](https://img.shields.io/badge/status-active-brightgreen)]()
+[![Creativity](https://img.shields.io/badge/creativity-high-blue)]()
+[![Humor Level](https://img.shields.io/badge/humor-sarcastic-orange)]()
 
-> **Welcome to the Web Programming Dojo.**
-> A place to write, execute, and detonate HTML in the browser. Neon included. No refunds.
+## 概要
+Qianyu Yangは、日々コードを書きながら世界の謎とバグに挑む自己実行型ライブラリです。  
+主な機能は思考、創造、そして適度な皮肉。副機能としてコーヒー消費と無意味な最適化があります。
 
----
+## 特徴
+- 高速な問題解決能力 ⚡
+- 突発的に謎なアイデアを生成 💡
+- サブシステム「睡眠」で再起動可能 🛌
+- 謎の自己評価メカニズム付き 🤔
 
-## 🚨 How to boot (quickstart)
-
-1. Open the console gateway:
-   `https://1cyberpunk.github.io/htmlprac/` — load `index.html` in your browser.
-2. Hack the editor, run the preview: write HTML → press **NEO-RUN (Ctrl+S)** or click `起動`.
-3. Save a core dump with **ログを保存** (exports an HTML snapshot).
-4. Restore with **ログ読込** (select a file).
-5. Want to share the chaos? Click **🔗 シェア** to clone a URL with the payload in the hash.
-
----
-
-## 🧩 What this is
-
-A browser-based mini-IDE using Monaco. Edit HTML, preview instantly in an iframe, and export or share your experiments. Designed for quick prototyping and loud neon aesthetics.
-
----
-
-## 🔒 Safety note (because someone has to)
-
-The preview runs un-sandboxed for convenience. Don’t paste untrusted code unless you enjoy surprises. If you want stricter containment, add a `sandbox` attribute to the iframe.
-
----
-
-## 📜 License
-
-MIT — steal it, fork it, improve it. Leave the credits intact.
-
----
-
-v20220120 — Neon build by Code for FUKUI.
+## デモ
+```text
+> プログラマーの人.think("今日の課題")
+Output: "それ、最適化できるけどやる価値ある？"
+```
