@@ -1,320 +1,168 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>404 — ネットワークの幽霊</title>
-<style>
-  :root{
-    --bg1: #050014;
-    --bg2: #001428;
-    --neon-pink: #ff2d95;
-    --neon-cyan: #00f0ff;
-    --neon-yellow: #ffd400;
-    --glass: rgba(255,255,255,0.04);
-    --mono: "SFMono-Regular", "Menlo", "Monaco", monospace;
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>404 Not Found — Mechanical</title>
+  <meta name="description" content="Mechanical themed 404 error page with animated gears." />
+  <style>
+    /* Reset-ish */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Noto Sans JP", monospace;
+      background: radial-gradient(1200px 600px at 10% 10%, #0b0f14 0%, #071018 15%, #05070a 40%, #000 100%);
+      color:#dfe7ee;
+      -webkit-font-smoothing:antialiased;
+      display:flex;align-items:center;justify-content:center;padding:36px;
+    }
 
-  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-  body{
-    background:
-      radial-gradient(ellipse at 10% 10%, rgba(0,240,255,0.03), transparent 5%),
-      radial-gradient(ellipse at 90% 90%, rgba(255,45,149,0.03), transparent 5%),
-      linear-gradient(110deg, var(--bg1), var(--bg2) 60%);
-    color:#d6f7ff;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
+    .card{
+      width:min(980px,100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:12px;
+      padding:36px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      display:grid;grid-template-columns: 1fr 320px;gap:24px;align-items:center;
+    }
 
-  /* moving grid */
-  .grid {
-    position:fixed; inset:0; z-index:0;
-    background-image:
-      linear-gradient(transparent 92%, rgba(255,255,255,0.02) 92%),
-      linear-gradient(90deg, transparent 92%, rgba(255,255,255,0.02) 92%);
-    background-size: 100% 40px, 40px 100%;
-    animation: scrollGrid 10s linear infinite;
-    pointer-events:none;
-    mix-blend-mode: overlay;
-  }
-  @keyframes scrollGrid { from {background-position:0 0, 0 0} to {background-position:0 -40px, -40px 0} }
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr;padding:24px}
+      .panel-right{order:-1}
+    }
 
-  /* scanlines */
-  .scanline {
-    position:fixed; inset:0; z-index:1; pointer-events:none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0px,
-      rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.03) 3px
-    );
-    mix-blend-mode: multiply;
-    opacity:0.6;
-  }
+    .left h1{
+      font-size:48px;letter-spacing:-1px;margin-bottom:6px;color:#e6eefc
+    }
+    .left p{color:rgba(223,231,238,0.8);margin-bottom:18px}
+    .muted{color:rgba(223,231,238,0.55);font-size:13px}
 
-  .container{
-    position:relative;
-    z-index:2;
-    width:min(920px, 92%);
-    padding:40px;
-    box-sizing:border-box;
-    display:grid;
-    gap:18px;
-    align-items:center;
-    justify-items:center;
-    text-align:center;
-  }
+    .actions{display:flex;gap:12px;margin-top:18px}
+    .btn{background:none;border:1px solid rgba(255,255,255,0.08);padding:10px 14px;border-radius:8px;color:inherit;text-decoration:none;font-weight:600}
+    .btn.primary{background:linear-gradient(180deg,#1a73e8 0%, #1358c1 100%);border-color:rgba(0,0,0,0.25);color:white;box-shadow:0 6px 20px rgba(20,50,100,0.35)}
 
-  .card{
-    width:100%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.04);
-    padding:34px;
-    border-radius:12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px rgba(0,240,255,0.04) inset;
-    backdrop-filter: blur(6px) saturate(120%);
-  }
+    /* mechanical panel */
+    .panel-right{
+      height:100%;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border-radius:8px;border:1px solid rgba(255,255,255,0.02)
+    }
 
-  /* Big glitchy 404 */
-  .glitch-wrap{
-    font-family: var(--mono);
-    margin-bottom:6px;
-  }
-  .glitch{
-    font-size: clamp(48px, 12vw, 128px);
-    line-height:0.85;
-    font-weight:900;
-    letter-spacing: -4px;
-    position: relative;
-    color: #fff;
-    text-transform: uppercase;
-    text-shadow:
-      0 0 24px rgba(0,240,255,0.08),
-      0 0 40px rgba(255,45,149,0.06);
-    display:inline-block;
-    padding: 6px 12px;
-  }
-  .glitch::before,
-  .glitch::after{
-    content: attr(data-text);
-    position:absolute;
-    left:0; top:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    clip-path: inset(0 0 0 0);
-    -webkit-clip-path: inset(0 0 0 0);
-    pointer-events:none;
-  }
-  .glitch::before{
-    color: var(--neon-cyan);
-    z-index:-2;
-    transform: translate(6px, -4px);
-    filter: blur(2px);
-    mix-blend-mode: screen;
-    animation: glitchTop 2.2s infinite linear alternate-reverse;
-    opacity:0.85;
-  }
-  .glitch::after{
-    color: var(--neon-pink);
-    z-index:-3;
-    transform: translate(-6px, 4px);
-    filter: blur(1px);
-    mix-blend-mode: screen;
-    animation: glitchBot 1.8s infinite linear alternate-reverse;
-    opacity:0.9;
-  }
-  @keyframes glitchTop{
-    0% { clip-path: inset(0 0 0 0); transform:translate(6px,-4px) skewX(-1deg); }
-    10% { clip-path: inset(10% 0 70% 0); transform:translate(18px,-8px) skewX(6deg); }
-    20% { clip-path: inset(60% 0 10% 0); transform:translate(-8px,-6px) skewX(-3deg); }
-    30% { clip-path: inset(20% 0 60% 0); transform:translate(6px,-2px) skewX(2deg); }
-    100% { clip-path: inset(0 0 0 0); transform:translate(6px,-4px) skewX(-1deg); }
-  }
-  @keyframes glitchBot{
-    0% { clip-path: inset(0 0 0 0); transform:translate(-6px,4px) skewX(1deg); }
-    10% { clip-path: inset(30% 0 40% 0); transform:translate(-18px,8px) skewX(-5deg); }
-    40% { clip-path: inset(60% 0 10% 0); transform:translate(8px,4px) skewX(3deg); }
-    100% { clip-path: inset(0 0 0 0); transform:translate(-6px,4px) skewX(1deg); }
-  }
+    /* gear svg styling */
+    .gears{width:100%;max-width:300px}
+    svg{display:block;margin:auto}
+    .gear{filter:drop-shadow(0 6px 10px rgba(0,0,0,0.6))}
 
-  /* subtitle / lines */
-  .sub{
-    font-family: var(--mono);
-    font-size: 15px;
-    color: rgba(214,247,255,0.9);
-    text-shadow: 0 0 8px rgba(0,0,0,0.6);
-  }
+    /* rotate animations */
+    @keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes spin-fast{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
 
-  .neon-line{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    justify-content:center;
-    margin-top:6px;
-  }
-  .chip{
-    padding:6px 12px;
-    border-radius:8px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    font-family: var(--mono);
-    font-size:13px;
-    color:#bfefff;
-    box-shadow: 0 0 12px rgba(0,240,255,0.03) inset;
-  }
+    .g1{animation:spin-slow 9s linear infinite;transform-origin:50% 50%}
+    .g2{animation:spin-fast 5.6s linear infinite;transform-origin:50% 50%}
+    .g3{animation:spin-slow 7.5s linear infinite;transform-origin:50% 50%}
 
-  p.desc{
-    margin:18px 0 0 0;
-    font-size:16px;
-    color:rgba(214,247,255,0.85);
-    line-height:1.5;
-    max-width:780px;
-  }
+    /* metallic gradients */
+    .metal{fill:url(#metalGradient);stroke:#111;stroke-opacity:0.12}
 
-  .actions{
-    margin-top:20px;
-    display:flex;
-    gap:12px;
-    justify-content:center;
-  }
-  .btn{
-    font-family: var(--mono);
-    padding:10px 16px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,0.06);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    cursor:pointer;
-    color:#e8ffff;
-    text-decoration:none;
-    font-size:14px;
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  .btn:hover{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,240,255,0.04); }
-  .btn.primary{
-    border: 1px solid rgba(0,240,255,0.18);
-    box-shadow: 0 0 40px rgba(0,240,255,0.06);
-  }
-  .btn.ghost{
-    border:1px dashed rgba(255,255,255,0.06);
-    background:transparent;
-  }
+    /* subtle grid / blueprint feel */
+    .blueprint{
+      position:absolute;inset:0;pointer-events:none;opacity:0.06;background-image:linear-gradient(transparent 23px, rgba(255,255,255,0.02) 24px), linear-gradient(90deg, transparent 23px, rgba(255,255,255,0.02) 24px);
+      background-size:24px 24px,24px 24px;mix-blend-mode:overlay;border-radius:14px
+    }
 
-  /* footer console */
-  .console{
-    margin-top:18px;
-    width:100%;
-    text-align:left;
-    background: rgba(0,0,0,0.45);
-    padding:12px;
-    border-radius:8px;
-    color:#9ff7ff;
-    font-family: var(--mono);
-    font-size:13px;
-    border:1px solid rgba(0,240,255,0.03);
-    letter-spacing:0.6px;
-  }
-  .console b{ color: var(--neon-yellow); }
-  .muted{ color: rgba(214,247,255,0.5); font-family: Inter, sans-serif; }
+    /* code-like panel */
+    .tech{
+      background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));padding:12px;border-radius:8px;font-size:13px;color:#b6c8df;line-height:1.45;max-height:200px;overflow:auto;border:1px solid rgba(255,255,255,0.03)
+    }
 
-  /* small responsive tweaks */
-  @media (max-width:520px){
-    .glitch{ font-size: 56px; letter-spacing:-2px; }
-    .card{ padding:22px; border-radius:10px; }
-  }
+    .small{font-size:12px;color:rgba(223,231,238,0.6)}
 
-  /* background pulse */
-  @keyframes bgPulse {
-    0% { filter: hue-rotate(0deg) brightness(1); }
-    50% { filter: hue-rotate(8deg) brightness(1.03); }
-    100% { filter: hue-rotate(0deg) brightness(1); }
-  }
-  body{ animation: bgPulse 18s ease-in-out infinite; }
+    footer{margin-top:8px;color:rgba(223,231,238,0.45);font-size:12px}
 
-  /* flicker on title occasionally */
-  @keyframes flicker {
-    0% { opacity:1; }
-    5% { opacity:0.4; transform: translateY(-1px) scale(1.01); }
-    7% { opacity:1; transform: none; }
-    12% { opacity:0.6; }
-    100% { opacity:1; }
-  }
-  .glitch { animation: flicker 4s infinite; }
-</style>
+  </style>
 </head>
 <body>
-  <div class="grid" aria-hidden="true"></div>
-  <div class="scanline" aria-hidden="true"></div>
+  <main class="card" role="main" aria-labelledby="title">
+    <div class="left">
+      <h1 id="title">404 — ページが見つかりません</h1>
+      <p class="muted">指定したアドレスに対応するページがサーバーの中で迷子になっています。メカニカルな修理班を派遣中。</p>
 
-  <div class="container" role="main" aria-labelledby="title">
-    <div class="card" role="region" aria-label="404 エラー">
-      <div class="glitch-wrap">
-        <div id="title" class="glitch" data-text="404">404</div>
+      <div class="tech" aria-live="polite">
+        <strong>診断</strong>
+        <pre style="margin-top:8px">GET /requested/path → 404
+Server: static.mechanics
+Reason: resource-not-found
+Timestamp: <span id="ts"></span>
+Request ID: <span id="rid">--</span></pre>
       </div>
 
-      <div class="sub">
-        <div class="neon-line">
-          <div class="chip">端末: <strong>シティ・ノード</strong></div>
-          <div class="chip">ステータス: <strong>データ欠落</strong></div>
-          <div class="chip">コード: <strong>0xDEAD404</strong></div>
-        </div>
+      <div class="actions">
+        <a href="/" class="btn primary" id="homeBtn">ホームに戻る</a>
+        <a href="javascript:location.reload()" class="btn" id="retryBtn">再読み込み</a>
+        <a href="mailto:admin@example.com?subject=404%20報告&body=Path%3A%20" class="btn">管理者に報告</a>
       </div>
 
-      <p class="desc">
-        あなたのリクエストは都市の迷宮で迷子になった――<br>
-        このサブネットのそのページはもはや存在しないか、消去されたか、あるいは別の現実に移動した。<br>
-        ネオンの下で再接続するか、別の経路を選んでください。
-      </p>
+      <footer class="small">ヒント: URLのタイプミスを確認するか、上の「ホームに戻る」を押してください。</footer>
+    </div>
 
-      <div class="actions" role="navigation" aria-label="操作">
-        <a class="btn primary" href="/" title="トップページへ戻る">トップへ戻る</a>
-        <button class="btn ghost" onclick="retry()" title="ページを再読み込み">再試行</button>
-        <button class="btn" onclick="openMatrix()" title="ログを表示">ログを開く</button>
-      </div>
+    <div class="panel-right" aria-hidden="true">
+      <div style="position:relative;width:100%;max-width:300px">
+        <div class="blueprint"></div>
+        <svg class="gears" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated gears">
+          <defs>
+            <linearGradient id="metalGradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#cfd8e6" stop-opacity="0.95"/>
+              <stop offset="50%" stop-color="#9aa6c1" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#dfe7ee" stop-opacity="0.95"/>
+            </linearGradient>
+            <filter id="edge" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.45"/>
+            </filter>
+          </defs>
 
-      <div class="console" id="console" aria-live="polite">
-        <div><b>[NODE]</b> 接続待ち... <span class="muted">eth0 · 0.0.0.0</span></div>
-        <div><b>[TRACE]</b> last hops: <span class="muted">/gateway/sector-7 /neon/arc /404</span></div>
-        <div><b>[ACTION]</b> 推奨: <span class="muted">トップへ戻る / 再試行 / 管理者に連絡</span></div>
+          <!-- big gear (left) -->
+          <g transform="translate(60,110)" class="gear g1">
+            <circle cx="0" cy="0" r="36" class="metal"/>
+            <g class="teeth">
+              <!-- simple teeth outline -->
+              <path class="metal" d="M-46,-4 L-40,-12 L-28,-10 L-22,-18 L-12,-16 L-6,-24 L6,-24 L12,-16 L22,-18 L28,-10 L40,-12 L46,-4 L46,4 L40,12 L28,10 L22,18 L12,16 L6,24 L-6,24 L-12,16 L-22,18 L-28,10 L-40,12 L-46,4 Z"/>
+            </g>
+            <circle cx="0" cy="0" r="12" fill="#071422"/>
+          </g>
+
+          <!-- medium gear (right) -->
+          <g transform="translate(140,70)" class="gear g2">
+            <circle cx="0" cy="0" r="28" class="metal"/>
+            <path class="metal" d="M-36,-2 L-32,-10 L-22,-6 L-16,-14 L-6,-12 L-2,-20 L10,-20 L14,-12 L24,-14 L30,-6 L40,-10 L36,-2 L36,2 L40,10 L30,6 L24,14 L14,12 L10,20 L-2,20 L-6,12 L-16,14 L-22,6 L-32,10 L-36,2 Z"/>
+            <circle cx="0" cy="0" r="9" fill="#071422"/>
+          </g>
+
+          <!-- small gear (top) -->
+          <g transform="translate(120,30)" class="gear g3">
+            <circle cx="0" cy="0" r="16" class="metal"/>
+            <path class="metal" d="M-22,-2 L-18,-8 L-12,-6 L-8,-12 L-2,-10 L0,-16 L8,-16 L10,-10 L16,-12 L20,-6 L26,-8 L22,-2 L22,2 L26,8 L20,6 L16,12 L10,10 L8,16 L0,16 L-2,10 L-8,12 L-12,6 L-18,8 L-22,2 Z"/>
+            <circle cx="0" cy="0" r="5" fill="#071422"/>
+          </g>
+
+        </svg>
       </div>
     </div>
-  </div>
 
-<script>
-  function retry(){
-    // create a fake connection flicker then reload
-    const c = document.getElementById('console');
-    c.innerHTML += '<div><b>[SYSTEM]</b> 再接続を試みています...</div>';
-    setTimeout(()=> location.reload(), 900);
-  }
+  </main>
 
-  function openMatrix(){
-    const c = document.getElementById('console');
-    c.innerHTML += '<div><b>[MATRIX]</b> 古いログを復元中…</div>';
-    // append a few lines
-    const lines = [
-      '[MATRIX] fragment: "ghost_packet_07" recovered',
-      '[MATRIX] note: "都市の右下、下水トンネルに似たルート"',
-      '[MATRIX] hint: "時々、/archives/neo-alleys を試せ"'
-    ];
-    let i=0;
-    const t = setInterval(()=>{
-      if(i>=lines.length){ clearInterval(t); return; }
-      c.innerHTML += '<div>' + lines[i] + '</div>';
-      i++;
-    }, 600);
-    window.scrollTo({ top: document.body.scrollHeight, behavior:'smooth' });
-  }
+  <script>
+    // small runtime to populate debug data and gentle micro-interactions
+    (function(){
+      document.getElementById('ts').textContent = new Date().toLocaleString();
+      document.getElementById('rid').textContent = Math.random().toString(36).slice(2,10);
 
-  // small keyboard easter egg — press G to toggle extra glitch
-  document.addEventListener('keydown', (e)=>{
-    if(e.key.toLowerCase() === 'g'){
-      const g = document.querySelector('.glitch');
-      g.style.textShadow = g.style.textShadow ? '' : '0 0 30px rgba(0,240,255,0.2), 0 0 50px rgba(255,45,149,0.08)';
-    }
-  });
-</script>
+      var home = document.getElementById('homeBtn');
+      // keyboard shortcut: press R to reload, H to go home
+      window.addEventListener('keydown', function(e){
+        if(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+        if(e.key === 'r' || e.key === 'R') location.reload();
+        if(e.key === 'h' || e.key === 'H') home.click();
+      });
+    })();
+  </script>
 </body>
 </html>
