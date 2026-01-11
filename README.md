@@ -19,3 +19,5 @@ Qianyu Yangは、日々コードを書きながら世界の謎とバグに挑む
 > プログラマーの人.think("今日の課題")
 Output: "それ、最適化できるけどやる価値ある？"
 ```
+GitHub: https://github.com/qianyu815
+Email: available if bribed with coffee ☕
