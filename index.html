@@ -1,158 +1,83 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <title>ES-Jam 〜サイバーパンク道場〜</title>
-    <meta name="google-site-verification" content="4U4miU3Gsc0UAXRYGq5Y5ezYuwDvyN93D19iR8COO4E" />
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!-- サイバーパンク風フォント（外部） -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root{
-            --bg1: #04040a;
-            --bg2: #060026;
-            --neon-cyan: #00ffe1;
-            --neon-mag: #ff2dff;
-            --neon-yellow: #ffd400;
-            --glass: rgba(255,255,255,0.03);
-        }
-        html,body{height:100%;margin:0;font-family: "Orbitron",monospace, monospace;background: radial-gradient(1200px 600px at 10% 10%, rgba(0,255,225,0.03), transparent), linear-gradient(120deg, var(--bg2) 0%, #000 60%); color:#e6f7ff;}
-        /* Header */
-        header{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:16px;
-            gap:12px;
-            backdrop-filter: blur(6px);
-            background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        header h1{margin:0;font-size:1.4rem; letter-spacing:1px; color:var(--neon-cyan); text-shadow:0 0 16px rgba(0,255,225,0.12);}
-        header h1 span{font-size:0.6rem;color:var(--neon-mag);display:inline-block;margin-left:10px}
-        .controls{display:flex;gap:8px;align-items:center;}
-        button{
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border:1px solid rgba(255,255,255,0.06);
-            color:var(--neon-cyan);
-            padding:8px 12px;
-            border-radius:6px;
-            cursor:pointer;
-            font-size:1rem;
-            box-shadow:0 6px 18px rgba(0,0,0,0.6), 0 0 12px rgba(0,255,225,0.04);
-        }
-        button .minor{display:block;font-size:0.6rem;color:#8ff;}
-        /* Layout */
-        .main{height:calc(100vh - 130px); display:flex; gap:8px; padding:12px;}
-        #elmEditor{width:50%; height:100%; border-radius:8px; overflow:hidden; box-shadow: inset 0 0 60px rgba(0,0,0,0.8); border:1px solid rgba(255,255,255,0.03);}
-        #elmPreview{width:50%; height:100%; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background: #020014; box-shadow:0 8px 40px rgba(0,0,0,0.7);}
-        /* footer */
-        footer{padding:12px 20px; text-align:right; color:rgba(200,255,255,0.6); font-size:0.9rem;}
-        footer a{color:var(--neon-mag); text-decoration:none;}
-        /* Neon labels */
-        .label-neon{font-weight:700; color:var(--neon-cyan); text-shadow:0 0 8px rgba(0,255,225,0.12);}
-        /* responsive */
-        @media (max-width:900px){
-            .main{flex-direction:column;}
-            #elmEditor,#elmPreview{width:100%; height:50%;}
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>自己紹介 — プログラマーの人</title>
+  <meta name="description" content="シンプルで読みやすい自己紹介ページのサンプル。" />
+  <style>
+    :root{--bg:#f6f8fb;--card:#ffffff;--accent:#3b82f6;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;line-height:1.5;margin:0;background:var(--bg);color:#111}
+    .wrap{max-width:900px;margin:40px auto;padding:20px}
+    .card{background:var(--card);border-radius:12px;padding:28px;box-shadow:0 6px 22px rgba(16,24,40,0.08);display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center}
+    .avatar{width:120px;height:120px;border-radius:12px;background:linear-gradient(135deg,#eef2ff,#fff);display:flex;align-items:center;justify-content:center;border:1px solid #e6eefb}
+    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+    h1{margin:0;font-size:1.6rem}
+    .tag{color:var(--muted);margin-top:6px}
+    .bio{margin:18px 0 0}
+    .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .pill{background:#f3f4f6;padding:6px 10px;border-radius:999px;font-size:0.9rem;color:#111}
+    section{margin-top:20px}
+    h2{font-size:1.05rem;margin:0 0 10px}
+    ul.skills{display:flex;gap:10px;flex-wrap:wrap;padding:0;list-style:none;margin:0}
+    ul.skills li{background:#f8fafc;padding:8px 10px;border-radius:8px;font-size:0.9rem;color:#111}
+    .contact a{display:inline-block;margin-right:12px;color:var(--accent);text-decoration:none}
+    footer{margin-top:22px;color:var(--muted);font-size:0.9rem}
+    @media (max-width:640px){.card{grid-template-columns:1fr;grid-template-rows:auto auto;gap:12px}.avatar{margin:0 auto}}
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>ES-Jam <span>〜Cyber Dojo〜</span></h1>
-        <div class="controls">
-            <button id="btnrun"><span class="label-neon">起動</span><span class="minor">NEO-RUN (Ctrl+S)</span></button>
-            <button id="btnsave"><span class="label-neon">ログを保存</span><span class="minor">EXPORT CORE</span><a id="elmSave"></a></button>
-            <button id="btnload"><span class="label-neon">ログ読込</span><span class="minor">IMPORT</span><input id="elmLoad" type="file" hidden></button>
-            <button id="btnshare" title="シェア" style="font-size:1.05em;">🔗 シェア</button>
+  <main class="wrap">
+    <article class="card" aria-labelledby="name">
+      <div class="avatar" aria-hidden="true">
+        <!-- 写真を置く場所。画像がある場合は<img src="/path/to/photo.jpg" alt="プロフィール写真">に差し替えてください -->
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="4" stroke="#dbeafe" stroke-width="1.5" fill="#eef2ff"/>
+          <circle cx="12" cy="9" r="3" stroke="#93c5fd" stroke-width="1.2" fill="#ffffff"/>
+          <path d="M6 18c1.5-3 5-4 6-4s4.5 1 6 4" stroke="#93c5fd" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <header>
+          <h1 id="name">Qianyu Yang</h1>
+          <div class="tag">ソフトウェア開発 / フロントエンド</div>
+        </header>
+
+        <p class="bio">はじめまして。ウェブとAPIを作るのが好きな少年プログラマーです。シンプルで保守しやすいコードを書くことを心がけています。趣味はコーヒーとアルゴリズムの微妙な調整。</p>
+
+        <div class="meta">
+          <div class="pill">横浜在住</div>
+          <div class="pill">経験: 2年</div>
+          <div class="pill">言語: JavaScript / Python</div>
         </div>
-    </header>
 
-    <div class="main">
-        <div id="elmEditor"></div>
-        <div>
-            <iframe id="elmPreview" src="data:text/html;charset=utf-8;base64,PCFkb2N0eXBlIGh0bWw+PGh0bWw+PGhlYWQ+PG1ldGEgY2hhcnNldD0idXRmLTgiPjx0aXRsZT5FUy1KQU08L3RpdGxlPjxzdHlsZT5ib2R5e21hcmdpbjowO2JhY2tncm91bmQ6IzAwMTtkbGlzcGxheTpmbGV4O2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2hlaWdodDowMTAwaHg7Y29sb3I6I2BmZmY7Zm9udC1mYW1pbHk6bW9ub3NwYWNlfWh9IGgxeyBmb250LXNpemU6Mi4wZW07dGV4dC1zaGFkb3c6MCAwIDggI2BmZmYsMCAwIDI0cHggI2YwZjtjb2xvcjojMGZmZjt9IHAgeyBvcGFjaXR5OjAuO30gc3R5bGU9IiI+PC9zdHlsZT48L2hlYWQ+PGJvZHk+PGRpdj48aDE+RVMtSkFNIC0gQ3liZXIgRG9qbyA8L2gxPjxwPuOBmuOBq-OBmeOBq-OBvOOBk-OBj+OBruOBq-OBueOBj-OCk-OBq-OBq-OBvOOBj+ODvOOCi+OCi-OCk+ODvOOCk-ODvA=="></iframe>
-        </div>
-    </div>
+        <section>
+          <h2>スキル</h2>
+          <ul class="skills">
+            <li>HTML / CSS</li>
+            <li>JavaScript (ES6+)</li>
+            <li>React / Vue</li>
+            <li>Node.js / Express</li>
+            <li>Python / Flask</li>
+            <li>SQL / PostgreSQL</li>
+          </ul>
+        </section>
 
-    <footer>
-        <div>v20220821 — Neon build by <a href="https://github.com/code4fukui/htmlprac" target="_blank">Code for FUKUI</a></div>
-    </footer>
+        <section class="contact" aria-label="連絡先">
+          <h2>連絡先</h2>
+          <p>
+            <a href="mailto:yaoxia0910@gmail.com">qianyuyang.vip@gmail.com</a>
+            <a href="https://github.com/qianyu815" aria-label="GitHubプロフィール">GitHub</a>
+          </p>
+        </section>
 
-    <script type="module">
-        import { monaco } from "https://code4fukui.github.io/monaco-editor/monaco.js";
-        import { fixMyHTML } from "https://code4fukui.github.io/fixMyHTML/fixMyHTML.js";
-
-        let g_editor;
-
-        async function エディタを作る() {
-            g_editor = monaco.editor.create(elmEditor, {
-                language: "html",
-                autoIndent: "none",
-                tabSize: 2,
-                minimap: { enabled: false },
-                automaticLayout: true,
-                theme: "vs-dark",
-            });
-
-            let prg = "";
-            const url = (new URL(document.location.href)).searchParams.get("url");
-            if (url) {
-                prg += await (await fetch(url)).text();
-                prg += "\n";
-            }
-            prg += decodeURIComponent(location.hash.substr(1)).replaceAll('scr.ES-Jam.ipt','script');
-            g_editor.setValue(prg);
-
-            elmEditor.addEventListener("keyup", (e) => {
-                if (e.ctrlKey && e.key == "s") {
-                    見てみる();
-                }
-            });
-        }
-
-        function 見てみる() {
-            const p1 = g_editor.getValue();
-            const p2 = fixMyHTML(p1);
-            if (p1 != p2) {
-                g_editor.setValue(p2);
-            }
-            // プレビューは blob に流し込んで即座に表示（現実は壊れやすい）
-            elmPreview.src = URL.createObjectURL(new Blob([g_editor.getValue()], { type: "text/html" }));
-        }
-
-        function SAVEする() {
-            // サイバーパンク風のファイル名
-            elmSave.download = `core_dump.${Date.now()}.html`;
-            elmSave.href = URL.createObjectURL(new Blob([g_editor.getValue()], { type: "application/octet-stream" }));
-            elmSave.click();
-        }
-
-        function LOADする() {
-            const f = new FileReader();
-            f.onload = () => {
-                g_editor.setValue(f.result);
-            };
-            f.readAsText(elmLoad.files[0]);
-        }
-
-        function シェアする() {
-            const code = encodeURIComponent(g_editor.getValue().replaceAll('script','scr.ES-Jam.ipt')).replaceAll('(','%28').replaceAll(')','%29').replaceAll("'",'%27');
-            navigator.clipboard.writeText(`${location.origin}${location.pathname}#${code}`);
-            alert('シェアリンクをクローニングしました — クリップボードに転写済み');
-        }
-
-        // init
-        btnrun.onclick = () => 見てみる();
-        elmLoad.onchange = () => LOADする();
-        btnload.onclick = () => elmLoad.click();
-        btnsave.onclick = () => SAVEする();
-        btnshare.onclick = () => シェアする();
-        エディタを作る();
-    </script>
+        <footer>
+          このページはサンプルです。内容を編集して使ってください。
+        </footer>
+      </div>
+    </article>
+  </main>
 </body>
-
 </html>
